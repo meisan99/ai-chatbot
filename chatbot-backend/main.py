@@ -1,19 +1,24 @@
-from google import genai
-from typing import Protocol
+from fastapi import FastAPI
+import uvicorn
+from routers import chat
+from fastapi.middleware.cors import CORSMiddleware
 
-client = genai.Client(api_key="AQ.Ab8RN6IzPIyRYedo-cqQtHZ9FE0TlocA_19aauL8DMGof22DLA");
+app = FastAPI()
 
-models = client.models.list()
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)
 
-print("Available models:")
-for model in models:
-    print(model.name)
-
-question = "Hey, how are you doing today?"
-
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents=question
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-print(f"Question: {question}\nAnswer: {response.text}")
+app.include_router(chat.router)
+
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
