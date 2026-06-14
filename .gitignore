@@ -1,0 +1,88 @@
+# ==============================================================================
+# REACT / NODE / FRONTEND
+# ==============================================================================
+# Dependencies
+node_modules/
+jspm_packages/
+.pnpm-store/
+
+# Production build outputs
+dist/
+build/
+out/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Frontend local environment files and testing
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.eslintcache
+.stylelintcache
+coverage/
+.next/
+
+# ==============================================================================
+# PYTHON / BACKEND
+# ==============================================================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# Distribution / packaging
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Python unit test / coverage reports
+htmlcov/
+.tox/
+.nosenv/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Celery / database stuff
+celerybeat-schedule
+celerybeat.pid
+*.db
+*.sqlite3
