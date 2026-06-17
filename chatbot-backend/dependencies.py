@@ -9,5 +9,5 @@ GEN_API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=GEN_API_KEY)
 
 
-def get_client():
+def get_client() -> genai.Client:
     return client

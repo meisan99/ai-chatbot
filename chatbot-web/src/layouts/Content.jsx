@@ -4,11 +4,13 @@
  */
 export const Content = ({ messages }) => {
   return (
-    <div>
-      {messages.map((message, index) => (
-        <ChatBubble key={index} text={message.text} isUser={message.isUser} />
-      ))}
-    </div>
+    <section className="shrink h-full overflow-y-auto max-w-5xl mx-auto mb-4 px-4">
+      <div className="flex flex-col gap-4">
+        {messages.map((message, index) => (
+          <ChatBubble key={index} text={message.text} isUser={message.isUser} />
+        ))}
+      </div>
+    </section>
   );
 };
 
@@ -19,9 +21,9 @@ export const Content = ({ messages }) => {
  */
 function ChatBubble({ text, isUser }) {
   return (
-    <div>
-      <div>
-        <span>{isUser ? "User" : "Chatbot"}:</span> {text}
+    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+      <div className={`max-w-5/6 px-4 py-2 rounded-lg ${isUser ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}>
+        <span className="font-bold">{isUser ? "User" : "Chatbot"}:</span> {text}
       </div>
     </div>
   );

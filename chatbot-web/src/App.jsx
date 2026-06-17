@@ -1,31 +1,19 @@
 import "./index.css";
-import { useState } from "react";
 import { Content } from "./layouts/Content";
 import { Header } from "./layouts/Header";
 import { InputBar } from "./layouts/InputBar";
+import { useChat } from "./hooks/useChat";
 
 function App() {
-  /**
-   * @type {[Array<{text: string, isUser: boolean}>, Function(Array<{text: string, isUser: boolean}>) ]} messages - An array of message objects and a function to update the messages
-   */
-  const [messages, setMessages] = useState([
-    { text: "Hello, how can I help you?", isUser: false },
-  ]);
-
-  /**
-   * @param {string} message - The message text to send
-   */
-  function sendMessage(message) {
-    setMessages([...messages, { text: message, isUser: true }]);
-  }
+  const { messages, loading, error: _, sendMessage: send } = useChat();
 
   return (
-    <div className="min-h-screen overflow-x-hidden p-4">
-      <Header name="User" />
-      <main>
+    <div className="flex flex-col h-screen overflow-x-hidden">
+      <Header />
+      <main className="flex-1 overflow-hidden">
         <Content messages={messages} />
       </main>
-      <InputBar sendCallback={sendMessage} />
+      <InputBar sendCallback={send} disabled={loading} />
     </div>
   );
 }
