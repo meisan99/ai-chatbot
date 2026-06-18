@@ -11,15 +11,15 @@ export const InputBar = ({ sendCallback, disabled }) => {
 
   return (
     <footer>
-      <div className="shrink-0 max-w-5xl mx-auto px-4 py-2">
-        <div className="flex flex-row gap-2 justify-between items-center">
+      <div className="shrink-0 bg-primary">
+        <div className="max-w-5xl  mx-auto px-4 py-2 flex flex-row gap-2 justify-between items-center">
           <div className="flex-1">
             <textarea
               type="text"
               placeholder="Type a message..."
               value={input === null ? "" : input}
               onChange={(e) => setInput(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border-2"
+              className="w-full px-4 py-2 rounded-lg border-2 bg-white"
             />
           </div>
           <div>

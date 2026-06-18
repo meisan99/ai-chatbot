@@ -1,14 +1,20 @@
 /**
  * @param {Object} Props
  * @param {Array<{text: string, isUser: boolean}>} Props.messages - An array of message objects to display in the chat
+ * @param {boolean} Props.isLoading - A boolean indicating whether the chat is loading
  */
-export const Content = ({ messages }) => {
+export const Content = ({ messages, isLoading }) => {
   return (
     <section className="shrink h-full overflow-y-auto max-w-5xl mx-auto mb-4 px-4">
       <div className="flex flex-col gap-4">
         {messages.map((message, index) => (
           <ChatBubble key={index} text={message.text} isUser={message.isUser} />
         ))}
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="max-w-5/6 px-4 py-2 rounded-lg bg-secondary text-secondary-foreground">Loading...</div>
+          </div>  
+        )}
       </div>
     </section>
   );

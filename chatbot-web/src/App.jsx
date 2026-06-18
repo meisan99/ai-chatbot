@@ -11,7 +11,7 @@ function App() {
     <div className="flex flex-col h-screen overflow-x-hidden">
       <Header />
       <main className="flex-1 overflow-hidden">
-        <Content messages={messages} />
+        <Content messages={messages} isLoading={loading} />
       </main>
       <InputBar sendCallback={send} disabled={loading} />
     </div>
