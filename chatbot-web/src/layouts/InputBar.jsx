@@ -9,6 +9,19 @@ export const InputBar = ({ sendCallback, disabled }) => {
   /** @type {[string, (value: string) => void]} */
   const [input, setInput] = useState("");
 
+  /**
+   * @returns {boolean}
+   */
+  function TrySendInput() {
+    if (input) {
+      sendCallback(input);
+      setInput("");
+      return true;
+    }
+
+    return false;
+  }
+
   return (
     <footer>
       <div className="shrink-0 bg-primary">
@@ -20,18 +33,27 @@ export const InputBar = ({ sendCallback, disabled }) => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="w-full px-4 py-2 rounded-lg border-2 bg-white"
+              onKeyDown={(e) => {
+                
+                if (e.key === "Enter") {
+                  
+                  e.preventDefault(); // Prevents the default behavior of adding a new line
+
+                  if (!e.shiftKey) {
+                    TrySendInput();
+                  } else {
+                    setInput((prev) => prev + "\n");
+                  }
+                }
+                
+              }}
             />
           </div>
           <div>
             <button
               className="px-4  bg-secondary text-secondary-foreground border-2 rounded border-black hover:text-muted hover:bg-secondary/80 disabled:text-muted-foreground disabled:bg-secondary/50 disabled:border-muted-foreground"
               disabled={disabled}
-              onClick={() => {
-                if (input) {
-                  sendCallback(input);
-                  setInput("");
-                }
-              }}
+              onClick={() => TrySendInput()}
             >
               Send
             </button>
