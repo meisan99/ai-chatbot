@@ -6,8 +6,8 @@ import { useState } from "react";
  * @param {boolean} Props.disabled - A boolean indicating whether the input bar is disabled
  */
 export const InputBar = ({ sendCallback, disabled }) => {
-  /** @type {[string | null, (value: string) => void]} */
-  const [input, setInput] = useState(null);
+  /** @type {[string, (value: string) => void]} */
+  const [input, setInput] = useState("");
 
   return (
     <footer>
@@ -17,7 +17,7 @@ export const InputBar = ({ sendCallback, disabled }) => {
             <textarea
               type="text"
               placeholder="Type a message..."
-              value={input === null ? "" : input}
+              value={input}
               onChange={(e) => setInput(e.target.value)}
               className="w-full px-4 py-2 rounded-lg border-2 bg-white"
             />
