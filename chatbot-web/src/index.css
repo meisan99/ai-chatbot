@@ -22,3 +22,14 @@
     cursor: pointer;
   }
 }
+
+@layer utilities
+{
+  .animate-delay-150 {
+    animation-delay: 150ms;
+  }
+
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+}

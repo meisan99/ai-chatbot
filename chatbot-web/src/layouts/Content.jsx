@@ -1,4 +1,17 @@
 import { useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+
+function TypingIndicator() {
+  return (
+    <div className="flex justify-start">
+      <div className="flex gap-1">
+        <span className="w-2 h-2 bg-muted rounded-full animate-pulse" />
+        <span className="w-2 h-2 bg-muted rounded-full animate-pulse animate-delay-150" />
+        <span className="w-2 h-2 bg-muted rounded-full animate-pulse animate-delay-300" />
+      </div>
+    </div>
+  );
+}
 
 /**
  * @param {Object} Props
@@ -17,20 +30,14 @@ export const Content = ({ messages, isLoading }) => {
   }, [messages]);
 
   return (
-    <section className="shrink h-full overflow-y-auto max-w-5xl mx-auto px-4 py-4">
-      <div className="flex flex-col gap-4">
+    <section className="shrink h-full overflow-y-auto">
+      <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col gap-4">
         {messages.map((message, index) => (
           <ChatBubble key={index} text={message.text} isUser={message.isUser} />
         ))}
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="max-w-5/6 px-4 py-2 rounded-lg bg-secondary text-secondary-foreground">
-              Typing...
-            </div>
-          </div>
-        )}
+        {isLoading && <TypingIndicator />}
+        <div ref={bottomAnchorRef} />
       </div>
-      <div ref={bottomAnchorRef} />
     </section>
   );
 };
@@ -43,10 +50,17 @@ export const Content = ({ messages, isLoading }) => {
 function ChatBubble({ text, isUser }) {
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
-      <div
-        className={`max-w-5/6 px-4 py-2 rounded-lg ${isUser ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}
-      >
-        <span className="font-bold">{isUser ? "User" : "Chatbot"}:</span> {text}
+      <div className="max-w-5/6 flex flex-col gap-1">
+        <div
+          className={`flex ${isUser ? "justify-end" : "justify-start"} text-sm font-semibold`}
+        >
+          {isUser ? "User" : "Chatbot"}
+        </div>
+        <div
+          className={`px-4 py-2 rounded-lg ${isUser ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}
+        >
+          <ReactMarkdown>{text}</ReactMarkdown>
+        </div>
       </div>
     </div>
   );
