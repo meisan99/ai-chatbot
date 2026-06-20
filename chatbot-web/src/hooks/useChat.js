@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react"
+import { useState, useRef, useCallback } from "react"
 import { sendMessage } from "../api/chatService"
 import { ApiError } from "../api/apiError"
 
@@ -17,6 +17,12 @@ export function useChat() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
+    // Internal history for the backend
+    /**
+     * @type {React.MutableRefObject<Array<{role: string, content: string}>>}
+     */
+    const historyRef = useRef([])
+
     /** @type {sendMessageFunc} */
     const send = useCallback(async (message) => {
 
@@ -26,10 +32,16 @@ export function useChat() {
         try {
 
             setMessages((prev) => [...prev, { text: message, isUser: true }])
-            const data = await sendMessage(message)
-            setMessages((prev) => [...prev, { text: data.answer, isUser: false }])
 
-            return
+            const data = await sendMessage(message, historyRef.current)
+
+            historyRef.current = [
+                ...historyRef.current,
+                { role: "user", content: message },
+                { role: "model", content: data.answer },
+            ]
+
+            setMessages((prev) => [...prev, { text: data.answer, isUser: false }])
 
         } catch (err) {
 
@@ -39,8 +51,6 @@ export function useChat() {
                 ...prev,
                 { text: "An error occurred while sending the message.", isUser: false },
             ])
-
-            return
 
         } finally {
             setLoading(false)
