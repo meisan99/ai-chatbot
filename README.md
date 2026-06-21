@@ -53,3 +53,6 @@ VITE_API_URL=http://localhost:8080
 ```
 
 3. Open `http://localhost:5173` in your browser
+
+## Live Demo
+https://ai-chatbot-one-sable.vercel.app/
