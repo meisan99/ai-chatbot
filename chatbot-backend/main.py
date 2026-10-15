@@ -1,7 +1,19 @@
-from fastapi import FastAPI
+import os
+
 import uvicorn
-from routers import chat
+from dotenv import load_dotenv
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+from routers import chat
+
+load_dotenv()
+
+ALLOW_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("ALLOW_ORIGINS", "").split(",")
+    if origin.strip()
+]
 
 app = FastAPI()
 
@@ -10,7 +22,7 @@ if __name__ == "__main__":
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOW_ORIGINS,
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],

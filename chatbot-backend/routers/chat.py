@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
-from google import genai
+from fastapi import APIRouter, HTTPException
 from google.genai import errors as genai_errors
 from pydantic import BaseModel
-from dependencies import get_client
+
+from dependencies import AiClientDep
 
 router = APIRouter(
     prefix="/chat",
@@ -20,8 +20,11 @@ class ChatRequest(BaseModel):
     history: list[Message] = []
 
 
+GEMINI_MODEL = "gemini-3.5-flash-lite"
+
+
 @router.post("/")
-def chat(request: ChatRequest, client: genai.Client = Depends(get_client)):
+def chat(request: ChatRequest, client: AiClientDep):
 
     try:
         contents = [
@@ -30,17 +33,19 @@ def chat(request: ChatRequest, client: genai.Client = Depends(get_client)):
         contents.append({"role": "user", "parts": [{"text": request.message}]})
 
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model=GEMINI_MODEL,
             contents=contents,
-            config={"system_instruction": """
+            config={
+                "system_instruction": """
                 You are a helpful assistant.
                 Keep responses concise and clear.
                 If you are unsure about something, say so honestly.
                 Format code in markdown code blocks.
-            """},
+            """
+            },
         )
         return {"answer": response.text}
-    
+
     except genai_errors.ClientError as e:
         print(f"Gemini client error: {e}")
         raise HTTPException(status_code=e.code, detail=e.message)
